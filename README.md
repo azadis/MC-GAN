@@ -25,6 +25,7 @@ python setup.py install
 ```bash
 pip install visdom
 pip install dominate
+pip install scikit-image
 ```
 
 - Clone this repo:
