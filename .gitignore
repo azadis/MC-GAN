@@ -1,0 +1,8 @@
+checkpoints/*
+*.pth
+*.pyc
+results/*
+*.err
+*.out
+.ipynb_checkpoints
+figures/*
