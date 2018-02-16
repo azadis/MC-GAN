@@ -56,7 +56,7 @@ def font_transform(img,path, rgb_in):
     slices = []
     for j in range(target_size):
         for i in np.arange(0,D_):
-            slices += list(target_size * np.arange(i,D_*n_rgb,26) + j)
+            slices += list(target_size * np.arange(i,D_*n_rgb,D_) + j)
     img = index_select(img,2,LongTensor(slices)).view(target_size,target_size,D_*n_rgb)
     img = img.permute(2,0,1)
     return img           
