@@ -25,6 +25,7 @@ IN_NC=26
 O_NC=26
 IN_NC_1=3
 O_NC_1=3
+GRP=26
 PRENET=2_layers
 LR=0.002
 FINESIZE=64
@@ -65,7 +66,7 @@ exec &> >(tee -a "$LOG")
 echo "TRAIN MODEL WITH REAL TRAINING DATA" 
 
 CUDA_VISIBLE_DEVICES=${CUDA_ID} python train_Stack.py --dataroot ${DATASET}  --name ${NAME} --model ${MODEL}\
-							  --which_model_netG ${MODEL_G} --which_model_netD ${MODEL_D} --n_layers_D ${n_layers_D} \
+							  --which_model_netG ${MODEL_G} --which_model_netD ${MODEL_D} --n_layers_D ${n_layers_D} --grps ${GRP} \
 							  --norm ${NORM} --input_nc ${IN_NC} --output_nc ${O_NC} --input_nc_1 ${IN_NC_1} --output_nc_1 ${O_NC_1}\
 							  --which_model_preNet ${PRENET} --fineSize ${FINESIZE} --loadSize ${LOADSIZE} --lambda_A ${LAM_A}\
 							  --lambda_C ${LAM_C} --align_data --use_dropout --display_id 0 --niter ${NITER} --niter_decay ${NITERD}\

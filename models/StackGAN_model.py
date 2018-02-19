@@ -40,7 +40,7 @@ class StackGANModel(BaseModel):
         # load/define networks
         if self.opt.conv3d:
             # one layer for considering a conv filter for each of the 26 channels
-            self.netG_3d = networks.define_G_3d(opt.input_nc, opt.input_nc, norm=opt.norm, gpu_ids=self.gpu_ids)
+            self.netG_3d = networks.define_G_3d(opt.input_nc, opt.input_nc, norm=opt.norm, groups=opt.grps, gpu_ids=self.gpu_ids)
 
         # Generator of the GlyphNet
         self.netG = networks.define_G(opt.input_nc, opt.output_nc, opt.ngf,

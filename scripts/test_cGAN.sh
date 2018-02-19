@@ -21,6 +21,7 @@ n_layers_D=1
 NORM=batch
 IN_NC=26
 O_NC=26
+GRP=26
 PRENET=2_layers
 FINESIZE=64
 LOADSIZE=64
@@ -46,7 +47,7 @@ exec &> >(tee -a "$LOG")
 # =======================================
 CUDA_VISIBLE_DEVICES=${CUDA_ID} python test.py --dataroot ${DATASET} --name "${experiment_dir}"\
 							 	--model ${MODEL} --which_model_netG ${MODEL_G} --which_model_netD ${MODEL_D} --n_layers_D ${n_layers_D} --which_model_preNet ${PRENET}\
-							 	--norm ${NORM} --input_nc ${IN_NC} --output_nc ${O_NC}  --loadSize ${FINESIZE} --fineSize ${LOADSIZE} --display_id 0 --batchSize 1 --conditional\
+							 	--norm ${NORM} --input_nc ${IN_NC} --output_nc ${O_NC} --grps ${GRP}  --loadSize ${FINESIZE} --fineSize ${LOADSIZE} --display_id 0 --batchSize 1 --conditional\
 							 	--which_epoch ${EPOCH} --blanks 0.75 --conv3d --align_data
 
 

@@ -33,7 +33,7 @@ class cGANModel(BaseModel):
 
         # load/define networks
         if self.opt.conv3d:
-            self.netG_3d = networks.define_G_3d(opt.input_nc, opt.input_nc, norm=opt.norm, gpu_ids=self.gpu_ids)
+            self.netG_3d = networks.define_G_3d(opt.input_nc, opt.input_nc, norm=opt.norm, groups=opt.grps, gpu_ids=self.gpu_ids)
 
         self.netG = networks.define_G(opt.input_nc, opt.output_nc, opt.ngf,
                                     opt.which_model_netG, opt.norm, opt.use_dropout, gpu_ids=self.gpu_ids)
