@@ -176,10 +176,14 @@ class PartialData(object):
         self.loadSize = loadSize
         self.max_dataset_size = max_dataset_size
         self.blanks = blanks
-        self.data_loader_base_iter = iter(self.data_loader_base)
-        self.A_base,self.A_base_paths = next(self.data_loader_base_iter)
-        self.A_base[0,:,:,:]=normalize_stack(self.A_base[0,:,:,:]) 
+
         self.base_font = base_font
+        if base_font:        
+            self.data_loader_base_iter = iter(self.data_loader_base)
+            self.A_base,self.A_base_paths = next(self.data_loader_base_iter)
+            self.A_base[0,:,:,:]=normalize_stack(self.A_base[0,:,:,:]) 
+        else: 
+            self.A_base = []
         self.phase =phase
         if self.phase=='train':
 
@@ -188,8 +192,9 @@ class PartialData(object):
             t_topil = transforms.Compose([
                 transforms.ToPILImage()])             
                 
-            for ind in range(self.A_base.size(1)):
-                A_base = t_topil(self.A_base[0,ind,:,:].unsqueeze(0))
+            if self.base_font:
+                for ind in range(self.A_base.size(1)):
+                    A_base = t_topil(self.A_base[0,ind,:,:].unsqueeze(0))
     
 
     def __iter__(self):
@@ -238,7 +243,6 @@ class PartialData(object):
                 for i in range(blank_nums):
                     A[index,observed_glyph[i],:,:] = 1
                     
-                     
         return {'A': A, 'A_paths': A_paths, 'B':B, 'B_paths':B_paths, 'A_base':self.A_base}
                       
 
@@ -294,16 +298,20 @@ class StackDataLoader(BaseDataLoader):
             batch_size=self.opt.batchSize,
             shuffle=shuffle,
             num_workers=int(self.opt.nThreads))
-        
-        #Read and apply transformation on the BASE font 
-        dataset_base = ImageFolder(root=opt.base_root,
-                              transform=transform, return_paths=True, font_trans=True, rgb=opt.rgb,
-                               fineSize=opt.fineSize, loadSize=opt.loadSize) 
-        data_loader_base = torch.utils.data.DataLoader(
-            dataset_base,
-            batch_size=1,
-            shuffle=False,
-            num_workers=int(self.opt.nThreads))
+
+        if opt.base_font:
+            
+            #Read and apply transformation on the BASE font 
+            dataset_base = ImageFolder(root=opt.base_root,
+                                  transform=transform, return_paths=True, font_trans=True, rgb=opt.rgb,
+                                   fineSize=opt.fineSize, loadSize=opt.loadSize) 
+            data_loader_base = torch.utils.data.DataLoader(
+                dataset_base,
+                batch_size=1,
+                shuffle=False,
+                num_workers=int(self.opt.nThreads))
+        else:
+            data_loader_base=None
 
 
 
@@ -378,15 +386,18 @@ class PartialDataLoader(BaseDataLoader):
             shuffle=shuffle,
             num_workers=int(self.opt.nThreads))
             
-        #Read and apply transformation on the BASE font 
-        dataset_base = ImageFolder(root=opt.base_root,
-                              transform=transform, return_paths=True, font_trans=True, rgb=opt.rgb,
-                               fineSize=opt.fineSize, loadSize=opt.loadSize) 
-        data_loader_base = torch.utils.data.DataLoader(
-            dataset_base,
-            batch_size=1,
-            shuffle=False,
-            num_workers=int(self.opt.nThreads))
+        if opt.base_font:
+            #Read and apply transformation on the BASE font 
+            dataset_base = ImageFolder(root=opt.base_root,
+                                  transform=transform, return_paths=True, font_trans=True, rgb=opt.rgb,
+                                   fineSize=opt.fineSize, loadSize=opt.loadSize) 
+            data_loader_base = torch.utils.data.DataLoader(
+                dataset_base,
+                batch_size=1,
+                shuffle=False,
+                num_workers=int(self.opt.nThreads))
+        else:
+            data_loader_base = None
 
 
 

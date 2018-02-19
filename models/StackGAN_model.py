@@ -165,24 +165,25 @@ class StackGANModel(BaseModel):
     def set_input(self, input):
         input_A0 = input['A']
         input_B0 = input['B']
-        input_base = input['A_base']
-        
         self.input_A0.resize_(input_A0.size()).copy_(input_A0)
         self.input_B0.resize_(input_B0.size()).copy_(input_B0)
-        self.input_base.resize_(input_base.size()).copy_(input_base)
         self.image_paths = input['B_paths']
 
 
-        b,c,m,n = self.input_base.size()
+        if self.opt.base_font:
+            input_base = input['A_base']
+            self.input_base.resize_(input_base.size()).copy_(input_base)
         
-        real_base = self.Tensor(self.opt.output_nc,self.opt.input_nc_1, m,n)
-        for batch in range(self.opt.output_nc):
-            if not self.opt.rgb_in and self.opt.rgb_out:
-                real_base[batch,0,:,:] = self.input_base[0,batch,:,:]
-                real_base[batch,1,:,:] = self.input_base[0,batch,:,:]
-                real_base[batch,2,:,:] = self.input_base[0,batch,:,:]
-        
-        self.real_base = Variable(real_base, requires_grad=False)
+            b,c,m,n = self.input_base.size()
+            
+            real_base = self.Tensor(self.opt.output_nc,self.opt.input_nc_1, m,n)
+            for batch in range(self.opt.output_nc):
+                if not self.opt.rgb_in and self.opt.rgb_out:
+                    real_base[batch,0,:,:] = self.input_base[0,batch,:,:]
+                    real_base[batch,1,:,:] = self.input_base[0,batch,:,:]
+                    real_base[batch,2,:,:] = self.input_base[0,batch,:,:]
+            
+            self.real_base = Variable(real_base, requires_grad=False)
 
         if self.opt.isTrain:
 
@@ -266,8 +267,9 @@ class StackGANModel(BaseModel):
 
         obs_ = torch.cuda.LongTensor(self.obs) if self.opt.gpu_ids else LongTensor(self.obs)
 
-        real_base_gt = index_select(self.real_base, 0, obs_)
-        self.real_base_gt = (Variable(real_base_gt.data, requires_grad=False))
+        if self.opt.base_font:
+            real_base_gt = index_select(self.real_base, 0, obs_)
+            self.real_base_gt = (Variable(real_base_gt.data, requires_grad=False))
 
 
     def add_noise_disc(self,real):
