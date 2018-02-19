@@ -24,6 +24,7 @@ IN_NC=26
 O_NC=26
 IN_NC_1=3
 O_NC_1=3
+GRP=26
 PRENET=2_layers
 FINESIZE=64
 LOADSIZE=64
@@ -67,7 +68,7 @@ for i in $all_epochs;
 
 	do CUDA_VISIBLE_DEVICES=${CUDA_ID} python test_Stack.py --dataroot ${DATASET} --name "${experiment_dir}" --model ${MODEL}\
 										 --which_model_netG ${MODEL_G} --which_model_netD ${MODEL_D} --n_layers_D ${n_layers_D} --norm ${NORM}\
-										 --input_nc ${IN_NC} --output_nc ${O_NC} --input_nc_1 ${IN_NC_1} --output_nc_1 ${O_NC_1}\
+										 --input_nc ${IN_NC} --output_nc ${O_NC} --input_nc_1 ${IN_NC_1} --output_nc_1 ${O_NC_1} --grps ${GRP}\
 										 --which_model_preNet ${PRENET} --fineSize ${FINESIZE} --align_data\
 										 --loadSize ${LOADSIZE} --display_id 0 --batchSize 1 --conditional --rgb_out --partial\
 										 --which_epoch $EPOCH --which_epoch1 $i --blanks 0 --conv3d --base_root ${base_dir}
