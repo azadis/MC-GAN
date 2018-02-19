@@ -54,19 +54,18 @@ cd MC-GAN
 ```bash
 ./datasets/download_font_dataset.sh public_web_fonts
 ```
-Structure of the directories for above real-world fonts including only a few observed letters is as:
+Given a few letters of font ```${DATA}``` for examples 5 letters {T,O,W,E,R}, training directory ```A``` should contain 5 images each with dimension ```64x(64x26)x3``` where ```5 - 1 = 4``` letters are given. Each image should be saved as ```${DATA}_${IND}.png``` where ```${IND}``` is the index (in [0,26) ) of the letter omitted from the observed set. Training directory ```B``` contains images with similar names but all 5 letters are given. Structure of the directories for above real-world fonts including only a few observed letters is as follows. Image contents ```B/train/${DATA}_${IND}.png``` and ```test/${DATA}.png``` are the same.
 
 ```
 ../datasets/public_web_fonts
                       └── ${DATA}/
                           ├── A/
-                          │  ├──train/
-                          │  └──test/
+                          │  ├──train/${DATA}_${IND}.png
+                          │  └──test/${DATA}.png
                           └── B/
-                             ├──train/
-                             └──test/
+                             ├──train/${DATA}_${IND}.png
+                             └──test/${DATA}.png
 ```
-
 
 - (Optional) Download our synthetic color gradient font data set:
 <img src="https://people.eecs.berkeley.edu/~sazadi/MCGAN/datasets/github_color.png" width="90%"/>
