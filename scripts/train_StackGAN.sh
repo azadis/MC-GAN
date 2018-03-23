@@ -37,7 +37,7 @@ NITERD=300
 BATCHSIZE=7
 EPOCH=400
 EPOCH1=$(($NITER+$NITERD))
-CUDA_ID=1
+CUDA_ID=0
 
 
 if [ ! -d "./checkpoints/${experiment_dir}" ]; then
