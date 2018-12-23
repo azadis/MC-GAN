@@ -149,11 +149,13 @@ Follow the previous steps to visualize generated images and training curves wher
 ### Citation
 If you use this code or the provided dataset for your research, please cite our paper:
 ```
-@article{azadi2017multi,
-  title={Multi-Content GAN for Few-Shot Font Style Transfer},
+@inproceedings{azadi2018multi,
+  title={Multi-content gan for few-shot font style transfer},
   author={Azadi, Samaneh and Fisher, Matthew and Kim, Vladimir and Wang, Zhaowen and Shechtman, Eli and Darrell, Trevor},
-  journal={arXiv preprint arXiv:1712.00516},
-  year={2017}
+  booktitle={Proceedings of the IEEE Conference on Computer Vision and Pattern Recognition},
+  volume={11},
+  pages={13},
+  year={2018}
 }
 ```
 

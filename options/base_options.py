@@ -75,10 +75,11 @@ class BaseOptions():
 
         str_ids = self.opt.gpu_ids.split(',')
         self.opt.gpu_ids = []
-        for str_id in str_ids:
-            id = int(str_id)
-            if id >= 0:
-                self.opt.gpu_ids.append(id)
+        if len(str_ids)>1:
+            for str_id in str_ids:
+                id = int(str_id)
+                if id >= 0:
+                    self.opt.gpu_ids.append(id)
 
         args = vars(self.opt)
 
