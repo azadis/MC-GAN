@@ -73,14 +73,16 @@ class BaseOptions():
         self.opt = self.parser.parse_args()
         self.opt.isTrain = self.isTrain   # train or test
 
-        str_ids = self.opt.gpu_ids.split(',')
-        self.opt.gpu_ids = []
-        if len(str_ids)>1:
-            for str_id in str_ids:
-                id = int(str_id)
-                if id >= 0:
-                    self.opt.gpu_ids.append(id)
-
+        if self.opt.gpu_ids.find(' ')==-1:
+            str_ids = self.opt.gpu_ids.split(',')
+            self.opt.gpu_ids = []
+            if len(str_ids)>=1:
+                for str_id in str_ids:
+                    id = int(str_id)
+                    if id >= 0:
+                        self.opt.gpu_ids.append(id)
+        else:
+            self.opt.gpu_ids = []
         args = vars(self.opt)
 
         print('------------ Options -------------')
